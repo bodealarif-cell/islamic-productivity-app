@@ -2,35 +2,95 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =========================
+   🌿 FREE THEME (DEFAULT)
+========================= */
+:root {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --text: #e2e8f0;
+  --text-soft: #94a3b8;
+  --accent: #14b8a6;
+  --border: rgba(255, 255, 255, 0.08);
+}
+
+/* =========================
+   👑 PREMIUM THEME
+========================= */
+.premium {
+  --bg: #0b0f19;
+  --card: #111827;
+  --text: #f5f5f5;
+  --text-soft: #b8bcc8;
+  --accent: #c6a75e;
+  --border: rgba(198, 167, 94, 0.25);
+}
+
+/* =========================
+   BASE STYLES
+========================= */
 @layer base {
   body {
-    @apply bg-background text-textPrimary font-arabic;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: system-ui, sans-serif;
+    transition: all 0.4s ease;
   }
-  
+
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
-  
+
   ::-webkit-scrollbar-track {
-    @apply bg-secondary/30 rounded-full;
+    background: var(--card);
   }
-  
+
   ::-webkit-scrollbar-thumb {
-    @apply bg-accent/50 rounded-full;
+    background: var(--accent);
+    border-radius: 999px;
   }
-  
+
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-accent;
+    opacity: 0.8;
   }
 }
 
+/* =========================
+   COMPONENTS
+========================= */
 @layer components {
   .card-hover {
-    @apply transition-all duration-300 hover:shadow-xl hover:shadow-accent/5 hover:-translate-y-1;
+    transition: all 0.3s ease;
   }
-  
+
+  .card-hover:hover {
+    transform: translateY(-4px);
+  }
+
   .glass-effect {
-    @apply backdrop-blur-sm bg-white/5 border border-white/10;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+  }
+
+  /* 👑 Premium glow effect */
+  .premium-glow {
+    box-shadow: 0 0 25px rgba(198, 167, 94, 0.15);
+    border: 1px solid var(--border);
+  }
+
+  /* 🎨 Buttons */
+  .btn-primary {
+    background: var(--accent);
+    color: #000;
+    padding: 10px 16px;
+    border-radius: 12px;
+    transition: 0.3s;
+  }
+
+  .btn-primary:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
   }
 }
