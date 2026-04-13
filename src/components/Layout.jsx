@@ -11,14 +11,34 @@ const Layout = () => {
   const { isPremium } = useUser();
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col overflow-x-hidden">
+      
+      {/* Navbar */}
       <Navbar onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
-      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
-      <main className="container mx-auto px-4 py-6 pb-24 md:pb-6 flex-1">
-        <Outlet />
+
+      {/* Sidebar */}
+      <Sidebar 
+        isOpen={isSidebarOpen} 
+        onClose={() => setIsSidebarOpen(false)} 
+      />
+
+      {/* Main Content */}
+      <main className="flex-1 w-full px-4 py-6 pb-24 md:pb-6">
+        <div className="w-full max-w-screen-xl mx-auto">
+          <Outlet />
+        </div>
       </main>
-      <BottomNav />
-      <Footer />
+
+      {/* Bottom Navigation (mobile) */}
+      <div className="md:hidden">
+        <BottomNav />
+      </div>
+
+      {/* Footer (desktop only) */}
+      <div className="hidden md:block">
+        <Footer />
+      </div>
+
     </div>
   );
 };
