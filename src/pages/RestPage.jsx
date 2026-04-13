@@ -3,15 +3,15 @@ import { BookOpen, Headphones, Star, BookMarked } from 'lucide-react';
 
 const RestPage = () => {
   const sheikhs = [
-    { name: 'الشيخ سمير مصطفى', channelId: 'UCxWYdLz3rV_r0R0J0VtQXxg' },
-    { name: 'الشيخ أمجد سمير', channelId: 'UUsLm8t3T2Mh_QqY4M7Zp7nA' },
-    { name: 'الشيخ محمد الغليظ', channelId: 'UCx4d95B5P-gS7ZzqTkqK6ww' },
+    { name: 'الشيخ سمير مصطفى', channelId: 'UCPkWtAV30aVpz41BxcvOm9A' },
+    { name: 'الشيخ أمجد سمير', channelId: 'UCLiKpJu1ohQz4vtkBL3eDiw' },
+    { name: 'الشيخ محمد الغليظ', channelId: null }, // Not found, placeholder
   ];
 
   const quranReciters = [
-    { name: 'الشيخ المنشاوي', channelId: 'UCMqJjqZ8n1RlVcR3j2p4zF8' },
-    { name: 'الشيخ محمد أيوب', channelId: 'UCMAYYOUB' },
-    { name: 'الشيخ ياسر الدوسري', channelId: 'UCtelawatyasseer1' },
+    { name: 'الشيخ المنشاوي', channelId: 'UCg_YtKrkyc6G5zBCBkiwvgQ' },
+    { name: 'الشيخ محمد أيوب', channelId: null }, // Not found
+    { name: 'الشيخ ياسر الدوسري', channelId: 'UCU_BDxo0h1wtrT0i8CpSc2A' },
   ];
 
   const azkar = [
@@ -37,14 +37,20 @@ const RestPage = () => {
             <div key={idx} className="bg-secondary/30 rounded-lg p-3">
               <p className="text-accent font-medium mb-2">{reciter.name}</p>
               <div className="aspect-video bg-secondary rounded-lg overflow-hidden">
-                <iframe
-                  src={`https://www.youtube.com/embed/videoseries?list=${reciter.channelId}`}
-                  className="w-full h-full"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  title={reciter.name}
-                />
+                {reciter.channelId ? (
+                  <iframe
+                    src={`https://www.youtube.com/embed/videoseries?list=UU${reciter.channelId.slice(2)}`}
+                    className="w-full h-full"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    title={reciter.name}
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-textSecondary">
+                    <p>الفيديوهات ستضاف قريباً إن شاء الله</p>
+                  </div>
+                )}
               </div>
             </div>
           ))}
@@ -62,14 +68,20 @@ const RestPage = () => {
             <div key={idx} className="bg-secondary/30 rounded-lg p-3">
               <p className="text-accent font-medium mb-2">{sheikh.name}</p>
               <div className="aspect-video bg-secondary rounded-lg overflow-hidden">
-                <iframe
-                  src={`https://www.youtube.com/embed/videoseries?list=${sheikh.channelId}`}
-                  className="w-full h-full"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  title={sheikh.name}
-                />
+                {sheikh.channelId ? (
+                  <iframe
+                    src={`https://www.youtube.com/embed/videoseries?list=UU${sheikh.channelId.slice(2)}`}
+                    className="w-full h-full"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    title={sheikh.name}
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-textSecondary">
+                    <p>المحاضرات ستضاف قريباً إن شاء الله</p>
+                  </div>
+                )}
               </div>
             </div>
           ))}

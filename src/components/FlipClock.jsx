@@ -12,14 +12,19 @@ const FlipClock = ({ timeInSeconds, onTimeUpdate }) => {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
+    const now = new Date();
+    const isPM = now.getHours() >= 12;
+    const ampm = isPM ? 'م' : 'ص';
+    const displayHours = hrs % 12 || 12;
     return {
-      hours: String(hrs).padStart(2, '0'),
+      hours: String(displayHours).padStart(2, '0'),
       minutes: String(mins).padStart(2, '0'),
       seconds: String(secs).padStart(2, '0'),
+      ampm,
     };
   };
 
-  const { hours, minutes, seconds } = getTimeComponents(displayTime);
+  const { hours, minutes, seconds, ampm } = getTimeComponents(displayTime);
 
   const FlipDigit = ({ value, prevValue }) => {
     const [isFlipping, setIsFlipping] = useState(false);
@@ -50,7 +55,10 @@ const FlipClock = ({ timeInSeconds, onTimeUpdate }) => {
   return (
     <div className="flex items-center justify-center gap-2 md:gap-4 p-6 bg-gradient-to-br from-secondary/50 to-primary/30 rounded-2xl">
       <div className="text-center">
-        <FlipDigit value={hours} prevValue={getTimeComponents(prevTimeRef.current).hours} />
+        <div className="flex items-center justify-center gap-2">
+          <FlipDigit value={hours} prevValue={getTimeComponents(prevTimeRef.current).hours} />
+          <span className="text-3xl md:text-5xl text-accent font-bold">{ampm}</span>
+        </div>
         <p className="text-textSecondary text-xs mt-2">ساعات</p>
       </div>
       <span className="text-5xl md:text-7xl text-accent font-bold animate-pulse">:</span>

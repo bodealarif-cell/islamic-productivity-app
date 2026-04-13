@@ -5,6 +5,13 @@ import { Clock, Loader2 } from 'lucide-react';
 const PrayerTimes = () => {
   const { prayerTimes, loading, error } = usePrayerTimes();
 
+  const convertTo12Hour = (time24) => {
+    const [hours, minutes] = time24.split(':').map(Number);
+    const period = hours >= 12 ? 'م' : 'ص';
+    const hours12 = hours % 12 || 12;
+    return `${hours12}:${minutes.toString().padStart(2, '0')} ${period}`;
+  };
+
   if (loading) {
     return (
       <div className="bg-card rounded-xl p-6 border border-white/10">
@@ -42,7 +49,7 @@ const PrayerTimes = () => {
         {prayerTimes && Object.entries(prayerTimes).map(([key, time]) => (
           <div key={key} className="text-center p-3 bg-secondary/30 rounded-lg">
             <p className="text-accent font-medium">{prayerNames[key]}</p>
-            <p className="text-textPrimary text-lg font-mono mt-1">{time}</p>
+            <p className="text-textPrimary text-lg font-mono mt-1">{convertTo12Hour(time)}</p>
             <p className="text-textSecondary text-xs mt-1">20 دقيقة</p>
           </div>
         ))}
