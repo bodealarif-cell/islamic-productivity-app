@@ -14,39 +14,66 @@ const DashboardPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!userName) {
-      navigate('/');
-    }
+    if (!userName) navigate('/');
   }, [userName, navigate]);
 
   const currentHour = new Date().getHours();
   const suggestion = getAISuggestion(completionPercentage, currentHour, tasks);
 
   return (
-    <div className="space-y-6">
-      {/* Welcome Section */}
-      <div className="bg-gradient-to-r from-card to-secondary/50 rounded-xl p-6 border border-white/10">
-        <h2 className="text-2xl font-bold text-textPrimary">
+    <div className="w-full max-w-screen-xl mx-auto px-4 space-y-6">
+
+      {/* 🟢 Welcome Section */}
+      <div className="rounded-2xl p-6 bg-gradient-to-r from-card to-secondary/40 border border-white/10">
+        <h2 className="text-2xl md:text-3xl font-bold text-textPrimary">
           مرحباً {userName} 👋
         </h2>
-        <p className="text-textSecondary mt-1">لقبك اليوم: <span className="text-accent font-semibold">{userTitle}</span></p>
+
+        <p className="text-textSecondary mt-1">
+          لقبك اليوم:{" "}
+          <span className="text-accent font-semibold">
+            {userTitle}
+          </span>
+        </p>
       </div>
 
-      {/* AI Suggestion */}
+      {/* 🧠 AI Suggestion */}
       <AISuggestion suggestion={suggestion} />
 
-      {/* Progress Stats */}
-      <ProgressStats
-        completionPercentage={completionPercentage}
-        streakDays={streakDays}
-        level={level}
-      />
+      {/* 📊 GRID DASHBOARD */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-      {/* Prayer Times */}
-      <PrayerTimes />
+        {/* LEFT SIDE (MAIN) */}
+        <div className="lg:col-span-2 space-y-6">
 
-      {/* Time Map */}
-      <TimeMapChart tasks={tasks} fixedBlocks={fixedBlocks} />
+          {/* Progress */}
+          <div className="bg-card rounded-2xl p-4 border border-white/10">
+            <ProgressStats
+              completionPercentage={completionPercentage}
+              streakDays={streakDays}
+              level={level}
+            />
+          </div>
+
+          {/* Time Map */}
+          <div className="bg-card rounded-2xl p-4 border border-white/10">
+            <TimeMapChart tasks={tasks} fixedBlocks={fixedBlocks} />
+          </div>
+
+        </div>
+
+        {/* RIGHT SIDE (SIDEBAR WIDGETS) */}
+        <div className="space-y-6">
+
+          {/* Prayer Times */}
+          <div className="bg-card rounded-2xl p-4 border border-white/10">
+            <PrayerTimes />
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
   );
 };
