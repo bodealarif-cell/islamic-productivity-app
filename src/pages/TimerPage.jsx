@@ -17,43 +17,31 @@ const TimerPage = () => {
 
   useEffect(() => {
     if (selectedTask && !isRunning) {
-      setTimerSeconds(selectedTask.duration * 60);
+      setTimerSeconds(0);
       setInitialDuration(selectedTask.duration);
     }
   }, [selectedTask]);
 
   useEffect(() => {
-    if (isRunning && timerSeconds > 0) {
+    if (isRunning) {
       intervalRef.current = setInterval(() => {
-        setTimerSeconds(prev => {
-          if (prev <= 1) {
-            clearInterval(intervalRef.current);
-            setIsRunning(false);
-            return 0;
-          }
-          return prev - 1;
-        });
+        setTimerSeconds(prev => prev + 1);
       }, 1000);
-    } else if (timerSeconds === 0) {
-      setIsRunning(false);
+    } else {
+      clearInterval(intervalRef.current);
     }
     return () => clearInterval(intervalRef.current);
-  }, [isRunning, timerSeconds]);
+  }, [isRunning]);
 
   const handleStart = () => {
-    if (!selectedTaskId) return;
-    if (!isRunning && timerSeconds > 0) {
+    if (!isRunning) {
       setIsRunning(true);
     }
   };
 
   const handleReset = () => {
     setIsRunning(false);
-    if (selectedTask) {
-      setTimerSeconds(selectedTask.duration * 60);
-    } else {
-      setTimerSeconds(initialDuration * 60);
-    }
+    setTimerSeconds(0);
   };
 
   const handleAlhamdulillah = () => {
@@ -74,7 +62,7 @@ const TimerPage = () => {
     setSelectedTaskId(taskId);
     const task = tasks.find(t => t.id === taskId);
     if (task) {
-      setTimerSeconds(task.duration * 60);
+      setTimerSeconds(0);
       setInitialDuration(task.duration);
     }
   };
@@ -104,39 +92,39 @@ const TimerPage = () => {
       </div>
 
       {/* Flip Clock */}
-      {selectedTask && (
-        <div className="bg-card rounded-xl p-8 border border-white/10">
-          <FlipClock timeInSeconds={timerSeconds} />
-          
-          <div className="flex justify-center gap-4 mt-8">
-            <Button onClick={handleStart} disabled={isRunning}>
-              <Play className="w-4 h-4 ml-2" />
-              ابدأ
-            </Button>
-            <Button variant="secondary" onClick={handleReset}>
-              <RefreshCw className="w-4 h-4 ml-2" />
-              إعادة
-            </Button>
+      <div className="bg-card rounded-xl p-8 border border-white/10">
+        <FlipClock timeInSeconds={timerSeconds} />
+        
+        <div className="flex justify-center gap-4 mt-8">
+          <Button onClick={handleStart} disabled={isRunning}>
+            <Play className="w-4 h-4 ml-2" />
+            ابدأ
+          </Button>
+          <Button variant="secondary" onClick={handleReset}>
+            <RefreshCw className="w-4 h-4 ml-2" />
+            إعادة
+          </Button>
+          {selectedTask && (
             <Button variant="primary" onClick={handleAlhamdulillah} disabled={selectedTask?.completed}>
               <CheckCircle className="w-4 h-4 ml-2" />
               الحمد لله
             </Button>
-          </div>
-          
-          {selectedTask?.completed && (
-            <p className="text-center text-accent mt-4">✓ تم إنجاز هذه المهمة بنجاح</p>
           )}
         </div>
-      )}
+        
+        {selectedTask?.completed && (
+          <p className="text-center text-accent mt-4">✓ تم إنجاز هذه المهمة بنجاح</p>
+        )}
+      </div>
 
       {/* Instructions */}
       <div className="bg-secondary/30 rounded-xl p-5 border border-white/5">
         <h3 className="font-semibold text-textPrimary mb-2">كيفية الاستخدام:</h3>
         <ul className="list-disc list-inside space-y-1 text-textSecondary">
-          <li>اختر مهمة غير مكتملة من القائمة</li>
-          <li>اضغط "ابدأ" لبدء المؤقت</li>
-          <li>ركز على المهمة حتى انتهاء الوقت</li>
-          <li>بعد إتمام المهمة، اضغط "الحمد لله" لتسجيل الإنجاز</li>
+          <li>يمكنك اختيار مهمة اختيارية من القائمة للتركيز عليها</li>
+          <li>اضغط "ابدأ" لبدء المؤقت التصاعدي</li>
+          <li>ركز على عملك حتى تشعر بالرضا</li>
+          <li>إذا اخترت مهمة، اضغط "الحمد لله" بعد إتمامها لتسجيل الإنجاز</li>
         </ul>
       </div>
     </div>

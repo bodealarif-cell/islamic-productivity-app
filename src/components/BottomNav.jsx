@@ -1,15 +1,18 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, CheckSquare, Headphones, Clock } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { Home, CheckSquare, Headphones, Clock, Crown } from 'lucide-react';
 
 const BottomNav = () => {
+  const { t } = useTranslation();
   const location = useLocation();
 
   const navItems = [
-    { path: '/dashboard', icon: Home, label: 'الرئيسية' },
-    { path: '/tasks', icon: CheckSquare, label: 'المهام' },
-    { path: '/rest', icon: Headphones, label: 'الراحة' },
-    { path: '/timer', icon: Clock, label: 'المؤقت' },
+    { path: '/dashboard', icon: Home, label: t('nav.home') },
+    { path: '/tasks', icon: CheckSquare, label: t('nav.tasks') },
+    { path: '/rest', icon: Headphones, label: t('nav.rest') },
+    { path: '/timer', icon: Clock, label: t('nav.timer') },
+    { path: '/subscription', icon: Crown, label: t('nav.subscription') },
   ];
 
   return (

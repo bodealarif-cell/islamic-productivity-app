@@ -6,45 +6,50 @@ const FlipClock = ({ timeInSeconds, onTimeUpdate }) => {
 
   useEffect(() => {
     setDisplayTime(timeInSeconds);
+    prevTimeRef.current = timeInSeconds;
   }, [timeInSeconds]);
 
   const getTimeComponents = (seconds) => {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-    const now = new Date();
-    const isPM = now.getHours() >= 12;
-    const ampm = isPM ? 'م' : 'ص';
-    const displayHours = hrs % 12 || 12;
+    
     return {
-      hours: String(displayHours).padStart(2, '0'),
+      hours: String(hrs % 12 || 12).padStart(2, '0'),
       minutes: String(mins).padStart(2, '0'),
       seconds: String(secs).padStart(2, '0'),
-      ampm,
     };
   };
 
-  const { hours, minutes, seconds, ampm } = getTimeComponents(displayTime);
+  const currentTime = getTimeComponents(displayTime);
+  const prevTime = getTimeComponents(prevTimeRef.current);
+  
+  prevTimeRef.current = displayTime;
 
-  const FlipDigit = ({ value, prevValue }) => {
+  const FlipDigit = ({ value, prevValue, isChanging }) => {
     const [isFlipping, setIsFlipping] = useState(false);
-    const digitRef = useRef(null);
 
     useEffect(() => {
-      if (value !== prevValue) {
+      if (isChanging) {
         setIsFlipping(true);
-        const timer = setTimeout(() => setIsFlipping(false), 300);
+        const timer = setTimeout(() => setIsFlipping(false), 400);
         return () => clearTimeout(timer);
       }
-    }, [value, prevValue]);
+    }, [isChanging]);
 
     return (
-      <div className="relative inline-block">
+      <div className="relative inline-block w-20 h-24 md:w-32 md:h-40 perspective">
         <div
-          ref={digitRef}
-          className={`font-mono font-bold text-5xl md:text-7xl text-white neon-text transition-all duration-300 ${
-            isFlipping ? 'animate-flip' : ''
+          className={`font-mono font-bold text-5xl md:text-7xl text-accent flex items-center justify-center h-full transition-all duration-400 ${
+            isFlipping ? 'transform -rotate-360 opacity-70' : 'transform rotate-0 opacity-100'
           }`}
+          style={isFlipping ? {
+            transform: 'rotateX(90deg)',
+            transitionProperty: 'transform, opacity'
+          } : {
+            transform: 'rotateX(0deg)',
+            transitionProperty: 'transform, opacity'
+          }}
         >
           {value}
         </div>
@@ -52,23 +57,45 @@ const FlipClock = ({ timeInSeconds, onTimeUpdate }) => {
     );
   };
 
+  const isHourChanging = currentTime.hours !== prevTime.hours;
+  const isMinuteChanging = currentTime.minutes !== prevTime.minutes;
+  const isSecondChanging = currentTime.seconds !== prevTime.seconds;
+
   return (
     <div className="flex items-center justify-center gap-2 md:gap-4 p-6 bg-gradient-to-br from-secondary/50 to-primary/30 rounded-2xl">
+      {/* Hours */}
       <div className="text-center">
-        <div className="flex items-center justify-center gap-2">
-          <FlipDigit value={hours} prevValue={getTimeComponents(prevTimeRef.current).hours} />
-          <span className="text-3xl md:text-5xl text-accent font-bold">{ampm}</span>
-        </div>
+        <FlipDigit 
+          value={currentTime.hours} 
+          prevValue={prevTime.hours}
+          isChanging={isHourChanging}
+        />
         <p className="text-textSecondary text-xs mt-2">ساعات</p>
       </div>
+
+      {/* Separator */}
       <span className="text-5xl md:text-7xl text-accent font-bold animate-pulse">:</span>
+
+      {/* Minutes */}
       <div className="text-center">
-        <FlipDigit value={minutes} prevValue={getTimeComponents(prevTimeRef.current).minutes} />
+        <FlipDigit 
+          value={currentTime.minutes} 
+          prevValue={prevTime.minutes}
+          isChanging={isMinuteChanging}
+        />
         <p className="text-textSecondary text-xs mt-2">دقائق</p>
       </div>
+
+      {/* Separator */}
       <span className="text-5xl md:text-7xl text-accent font-bold animate-pulse">:</span>
+
+      {/* Seconds */}
       <div className="text-center">
-        <FlipDigit value={seconds} prevValue={getTimeComponents(prevTimeRef.current).seconds} />
+        <FlipDigit 
+          value={currentTime.seconds} 
+          prevValue={prevTime.seconds}
+          isChanging={isSecondChanging}
+        />
         <p className="text-textSecondary text-xs mt-2">ثواني</p>
       </div>
     </div>

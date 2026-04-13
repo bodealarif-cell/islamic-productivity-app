@@ -25,17 +25,25 @@ const usePrayerTimes = () => {
   };
 
   useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      // Fallback after 5 seconds if geolocation doesn't respond
+      fetchPrayerTimes(30.0444, 31.2357);
+    }, 5000);
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
+          clearTimeout(timeoutId);
           fetchPrayerTimes(position.coords.latitude, position.coords.longitude);
         },
         () => {
+          clearTimeout(timeoutId);
           // Fallback to Cairo coordinates
           fetchPrayerTimes(30.0444, 31.2357);
         }
       );
     } else {
+      clearTimeout(timeoutId);
       fetchPrayerTimes(30.0444, 31.2357);
     }
   }, []);

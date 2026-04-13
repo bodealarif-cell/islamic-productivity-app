@@ -1,0 +1,129 @@
+{
+  "app": {
+    "title": "Your Light",
+    "welcome": "Welcome {{name}} 👋"
+  },
+  "nav": {
+    "home": "Home",
+    "tasks": "Tasks",
+    "rest": "Rest",
+    "timer": "Timer",
+    "subscription": "Subscription"
+  },
+  "pages": {
+    "start": {
+      "title": "Start Your Journey Towards Islamic Productivity",
+      "subtitle": "An app that helps you organize your time in line with the Islamic lifestyle",
+      "nameLabel": "Enter your name",
+      "buttonStart": "Start Now"
+    },
+    "dashboard": {
+      "title": "Your title today:",
+      "completionProgress": "Daily progress",
+      "completed": "Completed",
+      "remainingTime": "Remaining time today after deducting worship and fixed blocks:",
+      "hours": "hours"
+    },
+    "tasks": {
+      "title": "My Daily Tasks",
+      "newTask": "New Task",
+      "settings": "Settings",
+      "addTaskForm": "Add a new task",
+      "taskTitle": "Task Title",
+      "duration": "Duration (hours)",
+      "category": "Category",
+      "add": "Add",
+      "cancel": "Cancel",
+      "noTasks": "No tasks yet. Add your first task!",
+      "editFixedBlocks": "Edit Fixed Times",
+      "maxTasksMessage": "You can add up to 2 tasks on the free plan. Subscribe to the premium plan for unlimited tasks."
+    },
+    "rest": {
+      "title": "Rest and Relax",
+      "quran": "Holy Quran",
+      "lectures": "Religious Lectures",
+      "azkar": "Daily Dhikr",
+      "books": "Book List",
+      "booksComingSoon": "Book list will be added soon, Inshallah",
+      "bookLibrary": "A diverse Islamic library growing with you",
+      "videosComingSoon": "Videos will be added soon, Inshallah"
+    },
+    "timer": {
+      "title": "Timer",
+      "hours": "hours",
+      "minutes": "minutes",
+      "seconds": "seconds"
+    },
+    "subscription": {
+      "title": "Subscriptions",
+      "activeSubscription": "Premium Plan Active",
+      "expiryDate": "Subscription expires:",
+      "thankYou": "Thank you for supporting the app! Enjoy all advanced features.",
+      "cancelButton": "Cancel Subscription",
+      "freePlan": "Free Plan",
+      "premiumPlan": "Premium Plan",
+      "mostPopular": "Most Popular",
+      "mostPopularBage": "Most Popular",
+      "free": "Free",
+      "perMonth": "per month",
+      "perYear": "per year",
+      "savings": "Save 17%",
+      "upgradNow": "Upgrade Now",
+      "currentPlan": "Current Plan",
+      "features": {
+        "unlimited": "Unlimited tasks",
+        "analytics": "Advanced analytics",
+        "export": "Export data",
+        "support": "Priority support",
+        "themes": "Custom themes",
+        "reminders": "Advanced reminders",
+        "upTo3": "Up to 3 tasks daily",
+        "basicStats": "Basic statistics"
+      },
+      "faq": {
+        "title": "Frequently Asked Questions",
+        "q1": "Can I cancel my subscription anytime?",
+        "a1": "Yes, you can cancel your subscription anytime from your account settings.",
+        "q2": "What payment methods are available?",
+        "a2": "We accept all credit and debit cards.",
+        "q3": "Is there a money-back guarantee?",
+        "a3": "Yes, full refund within 30 days of subscription."
+      },
+      "payment": {
+        "title": "Complete Payment",
+        "cardData": "Card Information",
+        "processingPayment": "Processing...",
+        "pay": "Pay $9.99",
+        "secure": "Payment is secure and encrypted by Stripe",
+        "setupRequired": "Stripe setup required"
+      }
+    }
+  },
+  "common": {
+    "hours": "hours",
+    "minutes": "minutes",
+    "seconds": "seconds",
+    "day": "day",
+    "days": "days",
+    "level": "Level",
+    "streak": "Committed Days",
+    "joinDate": "Join Date",
+    "guest": "Guest",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "edit": "Edit",
+    "save": "Save",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "tryAgain": "Try Again",
+    "currency": "Currency",
+    "region": "Region",
+    "settings": "Settings"
+  },
+  "alerts": {
+    "cancelConfirm": "Are you sure you want to cancel your subscription? You will lose premium features.",
+    "cancelSuccess": "Subscription cancelled successfully.",
+    "paymentSuccess": "Payment successful! Premium subscription activated."
+  }
+}

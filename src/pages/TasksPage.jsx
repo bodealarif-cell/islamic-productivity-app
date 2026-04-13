@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useUser } from '../context/UserContext';
 import TaskCard from '../components/TaskCard';
 import Button from '../components/Button';
-import TimeMapChart from '../components/TimeMapChart';
 import { Plus, Settings } from 'lucide-react';
 import { TASK_CATEGORIES, FIXED_BLOCKS_LABELS } from '../utils/constants';
 import { calculateRemainingTime } from '../utils/timeCalculator';
@@ -16,9 +15,13 @@ const TasksPage = () => {
 
   const handleAddTask = () => {
     if (newTask.title.trim()) {
-      addTask({ ...newTask, title: newTask.title.trim() });
-      setNewTask({ title: '', duration: 30, category: 'personal' });
-      setShowAddForm(false);
+      try {
+        addTask({ ...newTask, title: newTask.title.trim() });
+        setNewTask({ title: '', duration: 1, category: 'personal' });
+        setShowAddForm(false);
+      } catch (error) {
+        alert(error.message);
+      }
     }
   };
 
@@ -86,11 +89,13 @@ const TasksPage = () => {
             />
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-textSecondary text-sm mb-1">المدة (دقائق)</label>
+                <label className="block text-textSecondary text-sm mb-1">المدة (ساعات)</label>
                 <input
                   type="number"
+                  step="0.5"
+                  min="0.5"
                   value={newTask.duration}
-                  onChange={(e) => setNewTask({ ...newTask, duration: parseInt(e.target.value) || 0 })}
+                  onChange={(e) => setNewTask({ ...newTask, duration: parseFloat(e.target.value) || 0 })}
                   className="w-full bg-secondary/50 border border-white/10 rounded-lg px-4 py-2 text-textPrimary"
                 />
               </div>
@@ -123,9 +128,6 @@ const TasksPage = () => {
           ساعة
         </p>
       </div>
-
-      {/* Time Map */}
-      <TimeMapChart tasks={tasks} fixedBlocks={fixedBlocks} />
 
       {/* Tasks List */}
       <div className="space-y-3">

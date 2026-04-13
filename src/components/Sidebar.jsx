@@ -1,10 +1,12 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useUser } from '../context/UserContext';
 import useUserProgress from '../hooks/useUserProgress';
-import { X, User, Calendar, Trophy, Settings, Target } from 'lucide-react';
+import { X, User, Calendar, Trophy, Settings, Target, Heart, Crown } from 'lucide-react';
 
 const Sidebar = ({ isOpen, onClose }) => {
-  const { userName, startDate } = useUser();
+  const { t, i18n } = useTranslation();
+  const { userName, startDate, isPremium } = useUser();
   const { completionPercentage, userTitle, streakDays, level } = useUserProgress();
 
   return (
@@ -35,7 +37,10 @@ const Sidebar = ({ isOpen, onClose }) => {
             <div className="w-24 h-24 mx-auto bg-gradient-to-br from-accent/20 to-primary rounded-full flex items-center justify-center mb-4">
               <User className="w-12 h-12 text-accent" />
             </div>
-            <h3 className="text-xl font-bold text-textPrimary">{userName}</h3>
+            <h3 className="text-xl font-bold text-textPrimary flex items-center justify-center gap-2">
+              {userName}
+              {isPremium() && <Crown className="w-5 h-5 text-yellow-500" />}
+            </h3>
             <p className="text-accent text-sm mt-1">{userTitle}</p>
           </div>
           
@@ -43,7 +48,7 @@ const Sidebar = ({ isOpen, onClose }) => {
             <div className="bg-secondary/30 rounded-xl p-4">
               <div className="flex items-center gap-3 mb-3">
                 <Target className="w-5 h-5 text-accent" />
-                <span className="text-textPrimary font-medium">التقدم اليومي</span>
+                <span className="text-textPrimary font-medium">{t('pages.dashboard.completionProgress')}</span>
               </div>
               <div className="w-full bg-secondary rounded-full h-2">
                 <div
@@ -51,21 +56,21 @@ const Sidebar = ({ isOpen, onClose }) => {
                   style={{ width: `${completionPercentage}%` }}
                 />
               </div>
-              <p className="text-textSecondary text-sm mt-2">{Math.round(completionPercentage)}% مكتمل</p>
+              <p className="text-textSecondary text-sm mt-2">{Math.round(completionPercentage)}% {t('pages.dashboard.completed')}</p>
             </div>
             
             <div className="bg-secondary/30 rounded-xl p-4">
               <div className="flex items-center gap-3 mb-2">
                 <Calendar className="w-5 h-5 text-accent" />
-                <span className="text-textPrimary font-medium">الأيام الملتزمة</span>
+                <span className="text-textPrimary font-medium">{t('common.streak')}</span>
               </div>
-              <p className="text-2xl font-bold text-textPrimary">{streakDays} يوم</p>
+              <p className="text-2xl font-bold text-textPrimary">{streakDays} {t('common.day')}</p>
             </div>
             
             <div className="bg-secondary/30 rounded-xl p-4">
               <div className="flex items-center gap-3 mb-2">
                 <Trophy className="w-5 h-5 text-accent" />
-                <span className="text-textPrimary font-medium">المستوى</span>
+                <span className="text-textPrimary font-medium">{t('common.level')}</span>
               </div>
               <p className="text-lg font-semibold text-accent">{level}</p>
             </div>
@@ -73,10 +78,27 @@ const Sidebar = ({ isOpen, onClose }) => {
             <div className="bg-secondary/30 rounded-xl p-4">
               <div className="flex items-center gap-3 mb-2">
                 <Settings className="w-5 h-5 text-accent" />
-                <span className="text-textPrimary font-medium">تاريخ الانضمام</span>
+                <span className="text-textPrimary font-medium">{t('common.joinDate')}</span>
               </div>
-              <p className="text-textSecondary">{new Date(startDate).toLocaleDateString('ar-EG')}</p>
+              <p className="text-textSecondary">{new Date(startDate).toLocaleDateString(i18n.language === 'ar' ? 'ar-EG' : 'en-US')}</p>
             </div>
+          </div>
+
+          {/* Developer Credit */}
+          <div className="mt-8 pt-6 border-t border-white/10">
+            <div className="flex items-center justify-center gap-1 text-textSecondary text-xs text-center mb-2">
+              <span className="text-accent">✨</span>
+              <span>
+                {i18n.language === 'ar'
+                  ? 'صُممَ بقلم أبو العارف'
+                  : 'Crafted by Abu Al-Aref'
+                }
+              </span>
+              <span className="text-accent">✨</span>
+            </div>
+            <p className="text-textSecondary text-xs text-center flex items-center justify-center gap-1">
+              Made with <Heart className="w-3 h-3 text-red-400 fill-red-400" /> for Islamic Productivity
+            </p>
           </div>
         </div>
       </div>

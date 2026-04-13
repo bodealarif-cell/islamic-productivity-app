@@ -14,6 +14,9 @@ export default {
         card: '#111827',
         textPrimary: '#E2E8F0',
         textSecondary: '#94A3B8',
+        gold: '#D4AF37',
+        goldLight: '#F4E87C',
+        goldDark: '#B8860B',
       },
       fontFamily: {
         arabic: ['Cairo', 'sans-serif'],

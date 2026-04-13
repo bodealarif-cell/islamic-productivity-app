@@ -7,14 +7,14 @@ export const calculateFixedTimeUsed = (fixedBlocks) => {
 
 export const calculateRemainingTime = (tasks, fixedBlocks) => {
   const fixedUsed = calculateFixedTimeUsed(fixedBlocks);
-  const tasksTotal = tasks.reduce((sum, task) => sum + (task.completed ? 0 : task.duration), 0) / 60;
+  const tasksTotal = tasks.reduce((sum, task) => sum + (task.completed ? 0 : task.duration), 0);
   const remaining = TOTAL_DAILY_HOURS - fixedUsed - tasksTotal;
   return Math.max(0, remaining);
 };
 
 export const getTimeMapData = (tasks, fixedBlocks) => {
   const fixedUsed = calculateFixedTimeUsed(fixedBlocks);
-  const tasksTotal = tasks.reduce((sum, task) => sum + (task.completed ? 0 : task.duration), 0) / 60;
+  const tasksTotal = tasks.reduce((sum, task) => sum + (task.completed ? 0 : task.duration), 0);
   const freeTime = Math.max(0, TOTAL_DAILY_HOURS - fixedUsed - tasksTotal);
   
   return [
