@@ -5,11 +5,13 @@ import { useUser } from '../context/UserContext';
 import useUserProgress from '../hooks/useUserProgress';
 import { Menu, Moon, Home, CheckSquare, Headphones, Clock, Crown } from 'lucide-react';
 import LanguageSwitcher from './LanguageSwitcher';
+import { useTheme } from '../context/ThemeContext';
 
 const Navbar = ({ onMenuClick }) => {
   const { t } = useTranslation();
   const { userName, isPremium } = useUser();
   const { userTitle } = useUserProgress();
+  const { isPremiumTheme } = useTheme();
   const location = useLocation();
 
   const navItems = [
@@ -21,9 +23,19 @@ const Navbar = ({ onMenuClick }) => {
   ];
 
   return (
-    <nav className="bg-card/50 backdrop-blur-sm border-b border-white/10 sticky top-0 z-40">
-      <div className="container mx-auto px-4 py-3">
+    <nav
+      className={`sticky top-0 z-40 backdrop-blur-sm border-b transition-all duration-300
+        ${isPremiumTheme
+          ? 'bg-[#0b0f19]/80 border-yellow-500/20 shadow-[0_0_20px_rgba(198,167,94,0.08)]'
+          : 'bg-card/50 border-white/10'
+        }
+      `}
+    >
+      <div className="w-full max-w-screen-xl mx-auto px-4 py-3">
+
         <div className="flex justify-between items-center">
+
+          {/* LEFT SIDE */}
           <div className="flex items-center gap-3">
             <button
               onClick={onMenuClick}
@@ -31,24 +43,39 @@ const Navbar = ({ onMenuClick }) => {
             >
               <Menu className="w-5 h-5 text-textSecondary" />
             </button>
+
             <div className="flex items-center gap-2">
               <Moon className="w-5 h-5 text-accent" />
-              <h1 className="text-xl font-bold bg-gradient-to-r from-accent to-cyan-400 bg-clip-text text-transparent flex items-center gap-2">
-                {t('app.title')}
-                {isPremium() && <Crown className="w-4 h-4 text-yellow-500" />}
+
+              <h1 className="text-xl font-bold flex items-center gap-2">
+                <span
+                  className={
+                    isPremiumTheme
+                      ? 'bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent'
+                      : 'bg-gradient-to-r from-accent to-cyan-400 bg-clip-text text-transparent'
+                  }
+                >
+                  {t('app.title')}
+                </span>
+
+                {isPremium() && (
+                  <Crown className="w-4 h-4 text-yellow-500" />
+                )}
               </h1>
             </div>
           </div>
-          
-          {/* Navigation Links */}
+
+          {/* NAV LINKS */}
           <div className="hidden md:flex items-center gap-1">
             {navItems.map(({ path, icon: Icon, label }) => (
               <Link
                 key={path}
                 to={path}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 ${
                   location.pathname === path
-                    ? 'text-accent bg-accent/10'
+                    ? isPremiumTheme
+                      ? 'text-yellow-400 bg-yellow-500/10'
+                      : 'text-accent bg-accent/10'
                     : 'text-textSecondary hover:text-textPrimary hover:bg-white/5'
                 }`}
               >
@@ -57,16 +84,35 @@ const Navbar = ({ onMenuClick }) => {
               </Link>
             ))}
           </div>
-          
+
+          {/* RIGHT SIDE */}
           <div className="flex items-center gap-4">
+
             <LanguageSwitcher />
-            <div className="flex items-center gap-3 bg-secondary/50 rounded-full px-4 py-1.5">
-              <span className="text-textPrimary font-medium">{userName || t('common.guest')}</span>
-              <span className="text-xs bg-accent/20 text-accent px-2 py-0.5 rounded-full flex items-center gap-1">
+
+            <div
+              className={`flex items-center gap-3 rounded-full px-4 py-1.5 transition-all ${
+                isPremiumTheme
+                  ? 'bg-yellow-500/10 border border-yellow-500/20'
+                  : 'bg-secondary/50'
+              }`}
+            >
+              <span className="text-textPrimary font-medium">
+                {userName || t('common.guest')}
+              </span>
+
+              <span
+                className={`text-xs px-2 py-0.5 rounded-full flex items-center gap-1 ${
+                  isPremiumTheme
+                    ? 'bg-yellow-500/20 text-yellow-400'
+                    : 'bg-accent/20 text-accent'
+                }`}
+              >
                 {isPremium() && <Crown className="w-3 h-3" />}
                 {userTitle}
               </span>
             </div>
+
           </div>
         </div>
       </div>
