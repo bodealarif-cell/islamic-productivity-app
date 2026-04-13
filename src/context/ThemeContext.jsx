@@ -7,25 +7,26 @@ export const ThemeProvider = ({ children }) => {
   const { isPremium } = useUser();
   const [theme, setTheme] = useState("free");
 
+  // 🎯 تشغيل الثيم مباشرة عند تغيير حالة المستخدم
   useEffect(() => {
-    if (isPremium()) {
+    const premium = isPremium();
+
+    if (premium) {
       setTheme("premium");
+      document.body.classList.add("premium");   // 👑 تفعيل الذهب
     } else {
       setTheme("free");
+      document.body.classList.remove("premium"); // 🔄 الرجوع للوضع العادي
     }
   }, [isPremium]);
 
-  const themes = {
-    free: {
-      name: "free",
-    },
-    premium: {
-      name: "premium",
-    },
+  const value = {
+    theme,
+    isPremiumTheme: theme === "premium",
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, styles: themes[theme] }}>
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );
